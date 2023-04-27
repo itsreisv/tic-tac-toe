@@ -1,19 +1,19 @@
 // Creates gameboard as 3 arrays inside of an object
 const Gameboard = (() => {
 
-  let gameBoard = [['','',''],['','',''],['','','']];
+  let gameBoard = ['','','','','','','','',''];
   
   const renderBoard = () => {
     const container = document.getElementById('container');
     for(let i = 0; i < Gameboard.gameBoard.length; i++) {
-      for(let j = 0; j < Gameboard.gameBoard[i].length; j++) {
+      
         const boxContainer = document.createElement('button');
         const itemContainer = document.createElement('p');
         boxContainer.classList.add('field')
-        itemContainer.textContent = Gameboard.gameBoard[i][j];
+        itemContainer.textContent = Gameboard.gameBoard[i];
         container.appendChild(boxContainer);
         boxContainer.appendChild(itemContainer);
-  }}}
+  }}
   return {gameBoard, renderBoard};
 })();
 Gameboard.renderBoard();
@@ -33,21 +33,25 @@ return {name, symbol};
 
 function placeSymbol () {
 
-  const boxes = document.querySelectorAll('.field')
-  let array = Array.from(boxes);
+  const boxes = document.querySelectorAll('.field');
 
-  array.forEach((button, index) => {
+  boxes.forEach((button, index) => {
     button.addEventListener('click', function() {
+      if(button.textContent === '') {
       for(let j = 0; j < Gameboard.gameBoard.length; j++){
-        for(let i = 0; i < Gameboard.gameBoard[j].length; i++) {
-      Gameboard.gameBoard[i].splice(index, 1, 'X');
-      
+      Gameboard.gameBoard.splice(index, 1, 'X');
+      button.textContent = 'X';
       return;
     }
+  }else if(button.textContent === 'X' || button.textContent ==='O') {
+    alert('Choose a different square');
+    return;
+
   }
-  }
+}
   )}
-)}
+  )}
+
 
 
 
