@@ -1,22 +1,13 @@
 // Creates gameboard as 3 arrays inside of an object
 const Gameboard = (() => {
 
-  let gameBoard = ['','','','','','','','',''];
-  
-  const renderBoard = () => {
-    const container = document.getElementById('container');
-    for(let i = 0; i < Gameboard.gameBoard.length; i++) {
-      
-        const boxContainer = document.createElement('button');
-        const itemContainer = document.createElement('p');
-        boxContainer.classList.add('field')
-        itemContainer.textContent = Gameboard.gameBoard[i];
-        container.appendChild(boxContainer);
-        boxContainer.appendChild(itemContainer);
-  }}
-  return {gameBoard, renderBoard};
+  let gameBoard = [['','',''],['','',''],['','','']];
+
+        
+  return {gameBoard};
 })();
-Gameboard.renderBoard();
+
+
 
 // Creates game logic for placing X or O inside of array or "squares on gameboard"
 let gameController = (() => {
@@ -31,28 +22,39 @@ this.symbol = symbol;
 return {name, symbol};
 }
 
-function placeSymbol () {
 
-  const boxes = document.querySelectorAll('.field');
+function placeTop() {
+  document.querySelectorAll('.top').forEach((button, index) => {
+    button.addEventListener('click', () => {
+      if(Gameboard.gameBoard[0][index] === 'X' || Gameboard.gameBoard[0][index] === 'O') {
+        alert('Choose a different square');
+      } else {
+        Gameboard.gameBoard[0].splice(index, 1, 'X');
+        button.textContent = Gameboard.gameBoard[0][index];
+      }
+})})}
 
-  boxes.forEach((button, index) => {
-    button.addEventListener('click', function() {
-      if(button.textContent === '') {
-      for(let j = 0; j < Gameboard.gameBoard.length; j++){
-      Gameboard.gameBoard.splice(index, 1, 'X');
-      button.textContent = 'X';
-      return;
-    }
-  }else if(button.textContent === 'X' || button.textContent ==='O') {
-    alert('Choose a different square');
-    return;
+function placeMid() {
+  document.querySelectorAll('.mid').forEach((button, index) => {
+    button.addEventListener('click', () => {
+      if(Gameboard.gameBoard[1][index] === 'X' || Gameboard.gameBoard[0][index] === 'O') {
+        alert('Choose a different square');
+      } else {
+    Gameboard.gameBoard[1].splice(index, 1, 'X');
+    button.textContent = Gameboard.gameBoard[1][index];
+}})})}
 
-  }
-}
-  )}
-  )}
+function placeBot() {
+  document.querySelectorAll('.bot').forEach((button, index) => {
+    button.addEventListener('click', () => {
+      if(Gameboard.gameBoard[2][index] === 'X' || Gameboard.gameBoard[0][index] === 'O') {
+        alert('Choose a different square');
+      } else {
+      Gameboard.gameBoard[2].splice(index, 1, 'X');
+      button.textContent = Gameboard.gameBoard[2][index];
+}})})}
 
 
-
-
-placeSymbol();
+placeTop();
+placeMid();
+placeBot();
