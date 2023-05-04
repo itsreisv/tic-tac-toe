@@ -1,12 +1,13 @@
 // Creates gameboard as 3 arrays inside of an object
 const Gameboard = (() => {
     let gameBoard = [['','',''],['','',''],['','','']];
+
     
     const resetBoard = () => {
       document.querySelector('.restart').addEventListener('click', () => {
        location.reload();
-      }
-)}
+      })}
+
   return {gameBoard, resetBoard};
 })();
 
@@ -23,9 +24,9 @@ let gameController = (() => {
     document.querySelectorAll('.field').forEach((button) => {
     button.addEventListener('click', () => {
       if(playerOneTurn === true && playerTwoTurn === false) {
-        display.textContent = 'Player O Turn';
+        display.textContent = userTwo.name + '\'s Turn!';
       } else if (playerOneTurn === false && playerTwoTurn === true) {
-        display.textContent = 'Player X Turn';
+        display.textContent = userOne.name + '\'s Turn!';
       }
     }
     )}
@@ -93,7 +94,7 @@ let gameController = (() => {
     (Gameboard.gameBoard[0][0] === 'X' && Gameboard.gameBoard[1][0] === 'X' && Gameboard.gameBoard[2][0] === 'X') ||
     (Gameboard.gameBoard[0][1] === 'X' && Gameboard.gameBoard[1][1] === 'X' && Gameboard.gameBoard[2][1] === 'X') ||
     (Gameboard.gameBoard[0][2] === 'X' && Gameboard.gameBoard[1][2] === 'X' && Gameboard.gameBoard[2][2] === 'X')) {
-    display.textContent = 'Player X Wins!';
+    display.textContent = userOne.name + ' ' + 'Wins!';
    return;
    
 } else if ((Gameboard.gameBoard[0][0] === 'O' && Gameboard.gameBoard[1][1] === 'O' && Gameboard.gameBoard[2][2] === 'O') ||
@@ -104,7 +105,7 @@ let gameController = (() => {
     (Gameboard.gameBoard[0][0] === 'O' && Gameboard.gameBoard[1][0] === 'O' && Gameboard.gameBoard[2][0] === 'O') ||
     (Gameboard.gameBoard[0][1] === 'O' && Gameboard.gameBoard[1][1] === 'O' && Gameboard.gameBoard[2][1] === 'O') ||
     (Gameboard.gameBoard[0][2] === 'O' && Gameboard.gameBoard[1][2] === 'O' && Gameboard.gameBoard[2][2] === 'O')) {
-   display.textContent = 'Player O Wins!';
+   display.textContent = userTwo.name + ' ' + 'Wins!'
    return;
    
 } else if ((Gameboard.gameBoard[0][0] === 'X' || Gameboard.gameBoard[0][0] === 'O') && (Gameboard.gameBoard[0][1] === 'X' || Gameboard.gameBoard[0][1] === 'O') && (Gameboard.gameBoard[0][2] === 'X' || Gameboard.gameBoard[0][2] === 'O')
@@ -114,10 +115,40 @@ let gameController = (() => {
 }
   }
     )})}
+
+  const setPlayers = () => {
+    document.querySelector('#submit').addEventListener('click', () => {
+      userOne = Player(document.querySelector('#nameOne').value);
+      userTwo = Player(document.querySelector('#nameTwo').value);
+      document.getElementById('modal').style.display = 'none';
+      return;
+    })}
+
+  const appendPage = () => {
+    const header = document.querySelector('.header');
+    const head = document.querySelector('.head');
+    const addName = document.createElement('h2');
+    const addNameTwo = document.createElement('h2');
+    const addSymbol = document.createElement('h3');
+    const addSymbolTwo = document.createElement('h3');
+    document.querySelector('#submit').addEventListener('click', () => {
+      addName.textContent = document.querySelector('#nameOne').value;
+      addSymbol.textContent = 'X';
+      addName.appendChild(addSymbol);
+      header.insertBefore(addName, head);
+      addNameTwo.textContent = document.querySelector('#nameTwo').value;
+      addSymbolTwo.textContent = 'O';
+      addNameTwo.appendChild(addSymbolTwo);
+      header.appendChild(addNameTwo);
+      return;
+  })}
+  
         
-        return {alternate, placeTop, placeMid, placeBot, gameOver, displayInfo};
+        return {alternate, placeTop, placeMid, placeBot, gameOver, displayInfo, setPlayers, appendPage};
 })();
 
+gameController.setPlayers();
+gameController.appendPage();
 gameController.displayInfo();
 gameController.placeTop();
 gameController.placeMid();
@@ -127,19 +158,7 @@ gameController.gameOver();
 Gameboard.resetBoard();
 
 
-
-
-
-function displayInfo() {
-  const displayInfo = document.querySelector('.info');
-  document.querySelector('.field').addEventListener('click', () => {
-    if(playerOneTurn === true) {
-      displayInfo.textContent = 'Player X Turn';
-    } else if (playerTwoTurn === true) {
-      displayInfo.textContent = 'Player O Turn';
+const Player = (name) => {
+      this.name = name;
+      return {name}
     }
-
-  }
-)}
-
-displayInfo();
